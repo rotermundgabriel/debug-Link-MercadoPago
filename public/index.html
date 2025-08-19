@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP Payment Links - Gerador de Links de Pagamento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .status-card {
+            background: #f8f9ff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .info-item {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-value {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">💳 MP Payment Links</div>
+        <div class="subtitle">Gerador de Links de Pagamento com Mercado Pago</div>
+        
+        <div class="status-card">
+            <div class="status-indicator"></div>
+            <strong>Servidor Online</strong>
+            <div id="server-info" class="info-value">Carregando informações...</div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-title">🏪 Multi-Tenant</div>
+                <div class="info-value">Cada usuário usa suas credenciais</div>
+            </div>
+            <div class="info-item">
+                <div class="info-title">⚡ Pagamentos</div>
+                <div class="info-value">PIX & Cartão via MP Bricks</div>
+            </div>
+            <div class="info-item">
+                <div class="info-title">🔗 Links</div>
+                <div class="info-value">Geração de links únicos</div>
+            </div>
+            <div class="info-item">
+                <div class="info-title">📊 Dashboard</div>
+                <div class="info-value">Controle total dos pagamentos</div>
+            </div>
+        </div>
+        
+        <div style="margin: 2rem 0;">
+            <button class="btn" onclick="checkHealth()">🔍 Testar API</button>
+            <a href="/vendor" class="btn btn-secondary">👨‍💼 Área do Vendedor</a>
+        </div>
+        
+        <div id="health-result" style="margin: 1rem 0;"></div>
+        
+        <div class="footer">
+            <strong>Stack:</strong> Node.js + Express + SQLite + Mercado Pago<br>
+            <strong>Deploy:</strong> Railway Ready 🚀
+        </div>
+    </div>
+
+    <script>
+        // Função para verificar saúde da API
+        async function checkHealth() {
+            const button = event.target;
+            const resultDiv = document.getElementById('health-result');
+            
+            button.textContent = '⏳ Testando...';
+            button.disabled = true;
+            
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div style="background: #f0fff4; border: 1px solid #9ae6b4; color: #22543d; padding: 1rem; border-radius: 8px;">
+                            ✅ <strong>API OK!</strong><br>
+                            Status: ${data.status}<br>
+                            Mensagem: ${data.message}<br>
+                            Timestamp: ${new Date(data.timestamp).toLocaleString('pt-BR')}
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div style="background: #fed7d7; border: 1px solid #feb2b2; color: #742a2a; padding: 1rem; border-radius: 8px;">
+                        ❌ <strong>Erro na API:</strong> ${error.message}
+                    </div>
+                `;
+            }
+            
+            button.textContent = '🔍 Testar API';
+            button.disabled = false;
+        }
+        
+        // Carregar info do servidor na inicialização
+        async function loadServerInfo() {
+            try {
+                const response = await fetch('/api/health');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('server-info').textContent = 
+                        `Última verificação: ${new Date(data.timestamp).toLocaleString('pt-BR')}`;
+                }
+            } catch (error) {
+                document.getElementById('server-info').textContent = 'Erro ao carregar informações';
+            }
+        }
+        
+        // Carregar informações quando a página carrega
+        document.addEventListener('DOMContentLoaded', loadServerInfo);
+        
+        // Atualizar informações a cada 30 segundos
+        setInterval(loadServerInfo, 30000);
+    </script>
+</body>
+</html>
