@@ -2,7 +2,15 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
+
+// Verifica e inicializa o banco de dados se necessário
+const dbPath = path.join(process.cwd(), 'database.db');
+if (!fs.existsSync(dbPath)) {
+    console.log('🔄 Banco de dados não encontrado. Inicializando...');
+    require('./services/database');
+}
 
 // Importa rotas
 const authRoutes = require('./routes/auth');
