@@ -43,7 +43,7 @@ async function handleLogin(email, password) {
     }
 }
 
-async function handleRegister(name, email, password) {
+async function handleRegister(name, email, password, access_token, public_key) {
     const submitBtn = document.getElementById('submitBtn');
     const errorDiv = document.getElementById('errorMessage');
     
@@ -59,13 +59,32 @@ async function handleRegister(name, email, password) {
             return;
         }
         
+        // Validate Mercado Pago credentials format
+        if (!access_token || access_token.length < 20) {
+            showError(errorDiv, 'Access Token inválido. Verifique suas credenciais do Mercado Pago');
+            setLoadingState(submitBtn, false);
+            return;
+        }
+        
+        if (!public_key || public_key.length < 10) {
+            showError(errorDiv, 'Public Key inválida. Verifique suas credenciais do Mercado Pago');
+            setLoadingState(submitBtn, false);
+            return;
+        }
+        
         // Make API request
         const response = await fetch(`${API_BASE_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify({ 
+                name, 
+                email, 
+                password,
+                access_token,
+                public_key
+            })
         });
         
         const data = await response.json();
@@ -90,6 +109,8 @@ async function handleRegister(name, email, password) {
                     errorMessage = 'E-mail inválido';
                 } else if (data.message.includes('required')) {
                     errorMessage = 'Preencha todos os campos obrigatórios';
+                } else if (data.message.includes('Invalid Mercado Pago')) {
+                    errorMessage = 'Credenciais do Mercado Pago inválidas';
                 } else {
                     errorMessage = data.message;
                 }
