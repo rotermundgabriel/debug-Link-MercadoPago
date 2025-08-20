@@ -52,6 +52,46 @@
                     >
                 </div>
                 
+                <div class="form-divider">
+                    <span>Credenciais do Mercado Pago</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="access_token">
+                        Access Token
+                        <a href="https://www.mercadopago.com.br/developers/panel/app" target="_blank" class="help-link">
+                            Onde encontrar?
+                        </a>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="access_token" 
+                        name="access_token" 
+                        required 
+                        placeholder="APP_USR-1234567890-..."
+                        autocomplete="off"
+                    >
+                    <small class="field-hint">Token de produção ou teste do seu app Mercado Pago</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="public_key">
+                        Public Key
+                        <a href="https://www.mercadopago.com.br/developers/panel/app" target="_blank" class="help-link">
+                            Onde encontrar?
+                        </a>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="public_key" 
+                        name="public_key" 
+                        required 
+                        placeholder="APP_USR-abc123def..."
+                        autocomplete="off"
+                    >
+                    <small class="field-hint">Chave pública do seu app Mercado Pago</small>
+                </div>
+                
                 <div id="errorMessage" class="error-message"></div>
                 
                 <button type="submit" class="btn btn-primary" id="submitBtn">
@@ -78,8 +118,10 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const access_token = document.getElementById('access_token').value;
+            const public_key = document.getElementById('public_key').value;
             
-            await handleRegister(name, email, password);
+            await handleRegister(name, email, password, access_token, public_key);
         });
     </script>
 </body>
