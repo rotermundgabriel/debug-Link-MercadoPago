@@ -91,7 +91,8 @@ function createUsersTable() {
       store_name TEXT NOT NULL,
       access_token TEXT,
       public_key TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `;
   
