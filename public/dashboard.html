@@ -35,6 +35,324 @@
                         <strong>ID:</strong> <span id="userId"></span>
                     </div>
                 </div>
+
+<!-- Adicionar esta seção ao dashboard.html existente -->
+<!-- Inserir após o header e antes da listagem de links -->
+
+<div class="credentials-section">
+    <div class="credentials-card">
+        <div class="card-header">
+            <h3>🔐 Credenciais Mercado Pago</h3>
+            <span id="credentialsStatus" class="status-badge">
+                <span class="status-icon">⏳</span>
+                Verificando...
+            </span>
+        </div>
+        
+        <div class="card-body">
+            <div id="credentialsInfo" class="credentials-info">
+                <div class="info-loading">
+                    <div class="mini-spinner"></div>
+                    <p>Carregando status das credenciais...</p>
+                </div>
+            </div>
+            
+            <div class="credentials-actions">
+                <a href="/credentials.html" class="btn-manage">
+                    <span>⚙️</span>
+                    Gerenciar Credenciais
+                </a>
+                <a href="https://www.mercadopago.com.br/developers/panel/app" 
+                   target="_blank" 
+                   class="btn-help">
+                    <span>📖</span>
+                    Documentação MP
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilos para a seção de credenciais no Dashboard */
+    .credentials-section {
+        margin: 30px auto;
+        max-width: 1200px;
+        padding: 0 20px;
+    }
+
+    .credentials-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .credentials-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header h3 {
+        margin: 0;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .status-badge {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .status-badge.configured {
+        background: rgba(40, 167, 69, 0.3);
+    }
+
+    .status-badge.not-configured {
+        background: rgba(255, 193, 7, 0.3);
+    }
+
+    .status-icon {
+        font-size: 16px;
+    }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .credentials-info {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+    }
+
+    .info-loading {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .mini-spinner {
+        width: 24px;
+        height: 24px;
+        border: 3px solid #e0e0e0;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .credentials-details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .credential-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .credential-item:last-child {
+        border-bottom: none;
+    }
+
+    .credential-label {
+        font-weight: 600;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .credential-value {
+        font-family: 'Courier New', monospace;
+        color: #666;
+        font-size: 13px;
+        background: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    .credentials-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-manage, .btn-help {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-manage {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .btn-manage:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-help {
+        background: #f0f4ff;
+        color: #667eea;
+        border: 1px solid #e0e8ff;
+    }
+
+    .btn-help:hover {
+        background: #e0e8ff;
+    }
+
+    .warning-message {
+        background: #fff3cd;
+        color: #856404;
+        padding: 12px;
+        border-radius: 6px;
+        border-left: 4px solid #ffc107;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+        .credentials-section {
+            margin: 20px auto;
+        }
+
+        .card-header {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .credentials-actions {
+            flex-direction: column;
+        }
+
+        .btn-manage, .btn-help {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    // Script para carregar status das credenciais no dashboard
+    (function() {
+        async function loadCredentialsStatus() {
+            const statusBadge = document.getElementById('credentialsStatus');
+            const infoDiv = document.getElementById('credentialsInfo');
+            
+            try {
+                const response = await fetch('/api/credentials', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    if (data.hasCredentials) {
+                        // Credenciais configuradas
+                        statusBadge.className = 'status-badge configured';
+                        statusBadge.innerHTML = `
+                            <span class="status-icon">✅</span>
+                            Configurado
+                        `;
+                        
+                        infoDiv.innerHTML = `
+                            <div class="credentials-details">
+                                <div class="credential-item">
+                                    <span class="credential-label">Access Token:</span>
+                                    <span class="credential-value">****${data.accessTokenPreview || '****'}</span>
+                                </div>
+                                <div class="credential-item">
+                                    <span class="credential-label">Public Key:</span>
+                                    <span class="credential-value">****${data.publicKeyPreview || '****'}</span>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Credenciais não configuradas
+                        statusBadge.className = 'status-badge not-configured';
+                        statusBadge.innerHTML = `
+                            <span class="status-icon">⚠️</span>
+                            Não Configurado
+                        `;
+                        
+                        infoDiv.innerHTML = `
+                            <div class="warning-message">
+                                <strong>Atenção:</strong> Configure suas credenciais do Mercado Pago para começar a criar links de pagamento.
+                            </div>
+                        `;
+                    }
+                } else {
+                    throw new Error(data.message || 'Erro ao carregar status');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar status das credenciais:', error);
+                statusBadge.className = 'status-badge not-configured';
+                statusBadge.innerHTML = `
+                    <span class="status-icon">❌</span>
+                    Erro
+                `;
+                
+                infoDiv.innerHTML = `
+                    <div class="warning-message">
+                        Erro ao verificar status das credenciais. Por favor, recarregue a página.
+                    </div>
+                `;
+            }
+        }
+
+        // Carregar status ao abrir a página
+        if (document.getElementById('credentialsStatus')) {
+            loadCredentialsStatus();
+        }
+    })();
+</script>
                 
                 <div class="next-steps">
                     <h3>Próximos passos:</h3>
