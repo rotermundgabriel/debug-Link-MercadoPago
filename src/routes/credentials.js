@@ -5,7 +5,7 @@ const db = require('../services/database');
 const authMiddleware = require('../middleware/auth');
 
 // Chave para criptografia (em produção, usar variável de ambiente)
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'your-32-char-secret-key-here!!!';
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;  //'your-32-char-secret-key-here!!!'
 const IV_LENGTH = 16;
 
 // Funções de criptografia
