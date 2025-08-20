@@ -157,16 +157,24 @@ if (!process.env.JWT_SECRET) {
     process.env.JWT_SECRET = 'desenvolvimento-inseguro-mudar-em-producao';
 }
 
+if (!process.env.ENCRYPTION_KEY) {
+    console.warn('⚠️  AVISO: ENCRYPTION_KEY não está configurada no arquivo .env');
+    console.warn('⚠️  Usando chave padrão (INSEGURO para produção)');
+    console.warn('⚠️  Gere uma chave segura com: openssl rand -hex 32');
+    process.env.ENCRYPTION_KEY = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
+}
+
 // Inicia o servidor
 app.listen(PORT, () => {
     console.log('=====================================');
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
     console.log(`📍 URL: http://localhost:${PORT}`);
     console.log(`🔑 JWT configurado: ${process.env.JWT_SECRET ? 'Sim' : 'Não'}`);
+    console.log(`🔐 Criptografia configurada: ${process.env.ENCRYPTION_KEY ? 'Sim' : 'Não'}`);
     console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
     console.log('=====================================');
     console.log('Endpoints disponíveis:');
-    console.log('  POST /api/auth/register - Registrar novo usuário');
+    console.log('  POST /api/auth/register - Registrar novo usuário com credenciais MP');
     console.log('  POST /api/auth/login - Fazer login');
     console.log('  GET  /api/protected - Rota de teste (requer token)');
     console.log('  GET  /api/user/profile - Perfil do usuário (requer token)');
