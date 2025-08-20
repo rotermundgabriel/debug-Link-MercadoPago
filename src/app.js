@@ -17,6 +17,7 @@ const authRoutes = require('./routes/auth');
 // const setupRoutes = require('./routes/setup'); // Descomente quando existir
 // const linksRoutes = require('./routes/links'); // Descomente quando existir
 // const paymentRoutes = require('./routes/payment'); // Descomente quando existir
+const credentialsRoutes = require('./routes/credentials');
 
 // Importa middleware de autenticação
 const { authMiddleware } = require('./middleware/auth');
@@ -117,6 +118,7 @@ app.get('/api/user/profile', authMiddleware, (req, res) => {
 // app.use('/api/setup', authMiddleware, setupRoutes);
 // app.use('/api/links', authMiddleware, linksRoutes);
 // app.use('/api/payment', paymentRoutes); // Payment é parcialmente público
+app.use('/api/credentials', credentialsRoutes);
 
 // =====================================
 // TRATAMENTO DE ERROS
